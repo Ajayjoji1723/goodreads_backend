@@ -118,6 +118,7 @@ router.delete("/book/:book_id", async (req, res) => {
 
     const deletedBook = await Book.findByIdAndDelete(bookId);
     if (!deletedBook) throw new Error("No records found on that book id");
+    console.log(deletedBook);
     response.data = deletedBook;
   } catch (error) {
     console.log("/book/:book_id   : ", error);
