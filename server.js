@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const routes = require("./routes/routes");
+const authRoutes = require("./routes/auth.routes");
 
 const app = express();
 
@@ -18,5 +19,6 @@ mongoose
 
 //Initialize the routes
 app.use("/api", routes);
+app.use("/auth", authRoutes);
 
 app.listen(4444, () => console.log("Server runnning at 4444"));
