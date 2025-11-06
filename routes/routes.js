@@ -1,12 +1,13 @@
 const express = require("express");
 const _ = require("underscore");
 const Book = require("../model/Book");
-
+const jwtAuth = require("../middleware/jwt.service");
 const router = express.Router();
 
 //API'S
-router.get("/books", async (req, res) => {
+router.get("/books", jwtAuth, async (req, res) => {
   try {
+    console.log("userData: ", req.userData);
     const ipQuery = req.query;
     let result = [];
     if (_.size(ipQuery) !== 0) {
@@ -27,7 +28,6 @@ router.get("/books", async (req, res) => {
     } else {
       result = await Book.find();
     }
-    console.log("result: ", result);
     res.status(200).json({ Books: result });
   } catch (error) {
     console.log("/books   : ", error);
@@ -35,7 +35,7 @@ router.get("/books", async (req, res) => {
 });
 
 //GET Single book
-router.get("/book/:book_id", async (req, res) => {
+router.get("/book/:book_id", jwtAuth, async (req, res) => {
   let response = { success: 1, message: "Book Fecthed successfully" };
   let statusCode = 200;
   try {
@@ -59,7 +59,7 @@ router.get("/book/:book_id", async (req, res) => {
 });
 
 //Insert book API
-router.post("/book", async (req, res) => {
+router.post("/book", jwtAuth, async (req, res) => {
   let response = { success: 1, message: "Book Added successfully" };
   let statusCode = 200;
   try {
@@ -85,7 +85,7 @@ router.post("/book", async (req, res) => {
 });
 
 //UPDATE BOOK API
-router.put("/book/:book_id", async (req, res) => {
+router.put("/book/:book_id", jwtAuth, async (req, res) => {
   let response = { success: 1, message: "Book Updated successfully" };
   let statusCode = 200;
   try {
@@ -109,7 +109,7 @@ router.put("/book/:book_id", async (req, res) => {
 });
 
 //UPDATE BOOK API
-router.delete("/book/:book_id", async (req, res) => {
+router.delete("/book/:book_id", jwtAuth, async (req, res) => {
   let response = { success: 1, message: "Book Deleted successfully" };
   let statusCode = 200;
   try {
